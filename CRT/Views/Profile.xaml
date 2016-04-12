@@ -1,0 +1,59 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CRT.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
+    x:Class="CRT.Views.Profile"
+    mc:Ignorable="d">
+
+    <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+		EntranceNavigationTransitionInfo.IsTargetElement="True"
+        HorizontalScrollBarVisibility="Auto" 
+        VerticalScrollBarVisibility="Auto" >
+        <Grid Height="640" Width="360">
+            <Image x:Name="image" Margin="10,10,10,401" Source="ms-appx:///Assets/icon-profile.png"/>
+            <Pivot Title="Profile" Margin="10,230,10,10">
+                <PivotItem Header="Personal" Margin="0,0,10,-5">
+                    <Grid Margin="0,0,10,0">
+                        <StackPanel Margin="0,0,10,0">
+                            <TextBlock x:Name="textBlock" Margin="0,0,45,0" TextWrapping="Wrap" Text="First name" RenderTransformOrigin="-2.355,-3.448" FontSize="26.667" FontWeight="Bold" Height="50"/>
+                            <TextBlock x:Name="Firstname" TextWrapping="Wrap" Text="" FontSize="21.333" Margin="0,0,10,10"/>
+                            <TextBlock x:Name="textBlock_Copy" Margin="4,0,85,0" TextWrapping="Wrap" Text="Last name" RenderTransformOrigin="-2.355,-3.448" FontSize="26.667" FontWeight="Bold" Height="44"/>
+                            <TextBlock x:Name="lastname" Margin="4,0,10,10" TextWrapping="Wrap" Text="" FontSize="21.333"/>
+                            <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Email" RenderTransformOrigin="-2.355,-3.448" FontSize="26.667" FontWeight="Bold" Height="44" Width="225"/>
+                            <TextBlock x:Name="email" Margin="0,0,10,10" TextWrapping="Wrap" Text="" FontSize="21.333" SelectionChanged="email_SelectionChanged"/>
+                        </StackPanel>
+                    </Grid>
+                </PivotItem>
+                <PivotItem Header="Extra info" Margin="10,0">
+                    <Grid Margin="0,0,10,0">
+                        <StackPanel Height="375" Margin="0,0,10,-70">
+                            <TextBlock x:Name="textBlock2" Margin="0,0,108,0" TextWrapping="Wrap" Text="National ID" RenderTransformOrigin="-2.355,-3.448" FontSize="26.667" FontWeight="Bold" Height="50" SelectionChanged="textBlock2_SelectionChanged"/>
+                            <TextBlock x:Name="NationalID" TextWrapping="Wrap" Text="" FontSize="21.333" Margin="0,0,10,10"/>
+                            <TextBlock x:Name="textBlock_Copy2" Margin="4,0,195,0" TextWrapping="Wrap" RenderTransformOrigin="-2.355,-3.448" FontSize="26.667" FontWeight="Bold" Height="44">
+                    			<Run Text="Blood Type"/>
+
+                            </TextBlock>
+                            <TextBlock x:Name="bloodtype" Margin="4,0,10,10" TextWrapping="Wrap" Text="Last" FontSize="21.333"/>
+                            <TextBlock x:Name="textBlock_Copy3" TextWrapping="Wrap" Text="Birth Date" RenderTransformOrigin="-2.355,-3.448" FontSize="26.667" FontWeight="Bold" Height="44" SelectionChanged="textBlock_Copy3_SelectionChanged" Margin="0,0,226,0"/>
+                            <DatePicker x:Name="Birth" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+                        </StackPanel>
+                    </Grid>
+                </PivotItem>
+                <PivotItem Header="Location" Margin="12,0,10,0">
+                    <Grid Margin="0,0,10,0">
+                        <StackPanel Margin="0,0,10,0">
+                            <Grid Height="60">
+                                <TextBlock x:Name="textBlock4" Margin="0,10,175,10" TextWrapping="Wrap" Text="Sharing" RenderTransformOrigin="-2.355,-3.448" FontSize="26.667" FontWeight="Bold" SelectionChanged="textBlock2_SelectionChanged"/>
+                                <ToggleSwitch x:Name="toggleSwitch" Header="" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="128,10,10,10" Toggled="toggleSwitch_Toggled" IsOn="True"/>
+                            </Grid>
+                            <Maps:MapControl Height="245" Margin="0,0,10,0"/>
+                        </StackPanel>
+                    </Grid>
+                </PivotItem>
+            </Pivot>
+        </Grid>
+    </ScrollViewer>
+</Page>

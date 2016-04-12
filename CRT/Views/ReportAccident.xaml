@@ -1,0 +1,21 @@
+﻿<Page
+    x:Class="CRT.Views.ReportAccident"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CRT.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Image x:Name="image" Height="240" Margin="10,10,10,0" VerticalAlignment="Top" Source="ms-appx:///Assets/no-image-icon.jpg" Stretch="Fill"/>
+        <Button x:Name="button"  HorizontalAlignment="Left" Margin="285,10,0,0" VerticalAlignment="Top" Click="button_Click" Background="#CCFF0000">
+            <Image Source="ms-appx:///Assets/camera.png" Height="44" Width="35"/>
+        </Button>
+        <Button x:Name="ReportAccidentBt"  HorizontalAlignment="Left" Margin="284,510,0,0" VerticalAlignment="Top" Click="button1_Click" Height="35" Width="56" Background="White">
+            <Image Source="ms-appx:///Assets/basic1-170_paper_plane-512.png" Margin="-6.667,-6,-1.333,-6"/>
+        </Button>
+        <TextBox x:Name="textBlock" Margin="10,290,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="215" PlaceholderText="Description"/>
+
+    </Grid>
+</Page>

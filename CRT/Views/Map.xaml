@@ -1,0 +1,34 @@
+﻿<Page
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CRT.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Maps="using:Windows.UI.Xaml.Controls.Maps"
+    x:Class="CRT.Views.Map"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+		EntranceNavigationTransitionInfo.IsTargetElement="True">
+        <Maps:MapControl x:Name="CrtMap" MapServiceToken="UKKoTM4Jg68x8fEyHAc1~BtKulEmnFRJJmrIzkY68EA~ApboS1ZcO5Z3GaqfrqbdlB2vykTCT7afGsJRt27YY6d18BxgrF3MliAlxkjqNPo6"/>
+
+        <!--Set Visibility to Visible when access to location is denied -->
+        <TextBlock x:Name="LocationDisabledMessage" FontStyle="Italic" 
+                 Visibility="Collapsed" Margin="0,15,0,0" TextWrapping="Wrap" >
+          <Run Text="This app is not able to access Location. Go to " />
+              <Hyperlink NavigateUri="ms-settings:privacy-location">
+                  <Run Text="Settings" />
+              </Hyperlink>
+          <Run Text=" to check the location privacy settings."/>
+        </TextBlock>
+        <StackPanel HorizontalAlignment="Right" Height="89" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="45"  Background="#33000000" Opacity="0.7">
+            <Button x:Name="MyLocation" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="45" Background="#33000000" Opacity="0.7" d:LayoutOverrides="LeftPosition, RightPosition" Click="MyLocation_Click">
+                <Image Source="ms-appx:///Assets/Location-Map-icon.png"/>
+            </Button>
+            <Button x:Name="ReportAccident" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="45" Background="#33000000" Opacity="0.7" d:LayoutOverrides="LeftPosition, RightPosition" Click="ReportAccident_Click">
+                <Image Source="ms-appx:///Assets/bw-accident.png"/>
+            </Button>
+        </StackPanel>
+    </Grid>
+
+</Page>

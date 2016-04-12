@@ -1,0 +1,27 @@
+﻿<Page
+    x:Class="CRT.Views.Login"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CRT.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:fbsdk="using:winsdkfb"
+    mc:Ignorable="d">
+
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <RelativePanel Margin="10">
+            <Image x:Name="image" HorizontalAlignment="Left" Margin="95,55,-245,327" Width="150" Source="ms-appx:///Assets/redcress.png" Stretch="Fill" NineGrid="0" Height="150"/>
+
+            <TextBox x:Name="Email" Height="32" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Margin="12,283,-332,-283" PlaceholderText="Email"/>
+            <TextBox x:Name="Password" Height="32" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Margin="0,320,-332,-320" TextChanged="textBox_Copy_TextChanged" HorizontalAlignment="Right" Width="320" PlaceholderText="Password"/>
+            <Button x:Name="SignUp" Content="Sign up&#xD;&#xA;" HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Margin="252,357,-332,-353" Click="button_Click" RenderTransformOrigin="0.5,0.821" FontSize="13.333"/>
+            <TextBlock x:Name="ForgottenPassword" TextWrapping="Wrap" Text="Forgot pasword ?" Margin="239,0,-323.333,-412" SelectionChanged="textBlock_SelectionChanged" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
+            <Button x:Name="SignIn" Content="Sign in" HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Margin="167,357,-247,-353" Click="button_Click" RenderTransformOrigin="0.5,0.821" FontSize="13.333"/>
+            <fbsdk:FBLoginButton x:Name="LoginFb"  Margin="12,357,-95,-375"   Click="LoginFb_Click" Height="30" Width="103"  >
+
+            </fbsdk:FBLoginButton>
+            <fbsdk:ProfilePictureControl x:Name="ProfilePic" Margin="10,387,-330,-610" Visibility="Collapsed"/>
+        </RelativePanel>
+
+    </Grid>
+</Page>
