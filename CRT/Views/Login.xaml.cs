@@ -48,7 +48,10 @@ namespace CRT.Views
 
         private async void button_Click(object sender, RoutedEventArgs e)
         {
-            Task<WebserviceHandler.IAuthenticate> LoginTask = WebserviceHandler.Authenticate(Email.Text, Password.Text);
+            BlackScreenLogin.Visibility = Visibility.Visible;
+            LoadingLogin.Visibility = Visibility.Visible;
+            LoadingLogin.IsActive = true;
+            Task<WebserviceHandler.IAuthenticate> LoginTask = WebserviceHandler.Authenticate(Email.Text, Password.Password);
             await Task.WhenAll(LoginTask);
             WebserviceHandler.IAuthenticate LoginResult = LoginTask.Result;
             if (LoginResult.success)
@@ -59,10 +62,29 @@ namespace CRT.Views
                 
                 StaticData.currentUser = UserTask.Result;
                 StaticData.socket.Emit("access_token", LoginResult.token);
-                if( StaticData.LastLocation!= null)
+                if (UserTask.Result.IsAdmin) { 
+                if ( StaticData.LastLocation!= null)
                 {
-                    SocketHandler.EmitSharingOn();
+                        IsolatedStorageHelper.SaveObject<bool>("IsSharing", true);
+
+                        SocketHandler.EmitSharingOn();
                 }
+                }
+                if (RememberMe.IsChecked==true)
+                {
+                    IsolatedStorageHelper.SaveObject<string>("access_token", LoginResult.token);
+
+                }
+                else
+                {
+                    IsolatedStorageHelper.SaveObject<string>("access_token", "");
+                    IsolatedStorageHelper.SaveObject<bool>("IsSharing", false);
+
+                }
+                BlackScreenLogin.Visibility = Visibility.Collapsed;
+                LoadingLogin.Visibility = Visibility.Collapsed;
+                LoadingLogin.IsActive = false;
+
                 Controls.StaticData.appShell.SetConnectedNavList();
                 StaticData.appShell.AppFrame.Navigate(typeof(Map));
             }
@@ -99,6 +121,17 @@ namespace CRT.Views
             {
                 Debug.WriteLine("err " + result.ErrorInfo.Message+"  "+ result.ErrorInfo.ErrorUserMessage);
             }
+        }
+
+        private void checkBox_Checked(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void SignUp_Click(object sender, RoutedEventArgs e)
+        {
+            StaticData.appShell.AppFrame.Navigate(typeof(SignUp));
+
         }
     }
 }

@@ -6,7 +6,7 @@
       xmlns:controls="using:CRT.Controls"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+      Background="{ThemeResource AppBarItemPointerOverBackgroundThemeBrush}"
       KeyDown="AppShell_KeyDown"
       TabNavigation="Cycle"
       mc:Ignorable="d">
@@ -28,8 +28,8 @@
                      It appears when the user hovers over the icon, but not the label which provides
                      value when the SplitView is 'Compact' while reducing the likelihood of showing
                      redundant information when the label is shown.-->
-                <FontIcon x:Name="Glyph" FontSize="16" Glyph="{x:Bind SymbolAsChar}" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTipService.ToolTip="{x:Bind Label}"/>
-                <TextBlock x:Name="Text" Grid.Column="1" Text="{x:Bind Label}" />
+                <FontIcon x:Name="Glyph" FontSize="16" Glyph="{x:Bind SymbolAsChar}" Foreground="White" VerticalAlignment="Center" HorizontalAlignment="Center" ToolTipService.ToolTip="{x:Bind Label}"/>
+                <TextBlock x:Name="Text" Grid.Column="1" Text="{x:Bind Label}" Foreground="White"/>
             </Grid>
         </DataTemplate>
         <Storyboard x:Name="Storyboard1"/>
@@ -67,7 +67,7 @@
         <SplitView x:Name="RootSplitView"
                    DisplayMode="Inline"
                    OpenPaneLength="256"
-                   IsTabStop="true" IsPaneOpen="True">
+                   IsTabStop="true" IsPaneOpen="True" Background="Black">
             <SplitView.Pane>
                 <!-- A custom ListView to display the items in the pane.  The automation Name is set in the ContainerContentChanging event. -->
                 <controls:NavMenuListView x:Name="NavMenuList"
@@ -76,16 +76,16 @@
                                           ContainerContentChanging="NavMenuItemContainerContentChanging"
                                           ItemContainerStyle="{StaticResource NavMenuItemContainerStyle}"
                                           ItemTemplate="{StaticResource NavMenuItemTemplate}"
-                                          ItemInvoked="NavMenuList_ItemInvoked">
-                    <controls:NavMenuListView.Footer>
-                        <Button x:Name="SettingsButton" 
-                                ToolTipService.ToolTip="Logout"
+                                          ItemInvoked="NavMenuList_ItemInvoked" Background="#FFD32F2F">
+                    <!--  <controls:NavMenuListView.Footer>
+                        <Button x:Name="Settings" 
+                                ToolTipService.ToolTip="Settings"
                                 TabIndex="4"
                                 Style="{StaticResource NavigationSettingsButtonStyle}"
                                 Width="{Binding ItemsPanelRoot.Width, ElementName=NavMenuList}"
                                 HorizontalAlignment="{Binding ItemsPanelRoot.HorizontalAlignment, ElementName=NavMenuList}"
                                 Click="SettingsButton_Click"/>
-                    </controls:NavMenuListView.Footer>
+                    </controls:NavMenuListView.Footer> -->
                 </controls:NavMenuListView>
             </SplitView.Pane>
 
@@ -108,11 +108,14 @@
             </SplitView.Content>
         </SplitView>
         <ToggleButton x:Name="TogglePaneButton"
-                      TabIndex="1"
-                      Style="{StaticResource SplitViewTogglePaneButtonStyle}"
-                      IsChecked="{Binding IsPaneOpen, ElementName=RootSplitView, Mode=TwoWay}"
-                      Unchecked="TogglePaneButton_Checked"
-                      AutomationProperties.Name="Menu"
-                      ToolTipService.ToolTip="Menu" />
+        	TabIndex="1"
+        	Style="{StaticResource SplitViewTogglePaneButtonStyle}"
+        	IsChecked="{Binding IsPaneOpen, ElementName=RootSplitView, Mode=TwoWay}"
+        	Unchecked="TogglePaneButton_Checked"
+        	AutomationProperties.Name="Menu"
+        	ToolTipService.ToolTip="Menu" Background="#00D32F2F" Foreground="#FFF44336" />
+        <StackPanel x:Name="ConnectionPanel" Margin="0,580,0,0" Background="Red">
+            <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="No internet connection found ! " Height="35" VerticalAlignment="Center" Margin="78,0,60,0"/>
+        </StackPanel>
     </Grid>
 </Page>

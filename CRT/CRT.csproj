@@ -99,6 +99,7 @@
     <Compile Include="AppShell.xaml.cs">
       <DependentUpon>AppShell.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\IsolatedStorageHelper.cs" />
     <Compile Include="Controls\NavMenuListView.cs" />
     <Compile Include="Controls\PageHeader.xaml.cs">
       <DependentUpon>PageHeader.xaml</DependentUpon>
@@ -106,14 +107,25 @@
     <Compile Include="Controls\SocketHandler.cs" />
     <Compile Include="Controls\StaticData.cs" />
     <Compile Include="Controls\WebserviceHandler.cs" />
+    <Compile Include="Models\Accident.cs" />
     <Compile Include="Models\Address.cs" />
+    <Compile Include="Models\ListItem.cs" />
     <Compile Include="Models\CrtLocal.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="NavMenuItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Views\AccidentHandle.xaml.cs">
+      <DependentUpon>AccidentHandle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Initialize.xaml.cs">
+      <DependentUpon>Initialize.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Logout.xaml.cs">
+      <DependentUpon>Logout.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Map.xaml.cs">
       <DependentUpon>Map.xaml</DependentUpon>
@@ -127,8 +139,11 @@
     <Compile Include="Views\ReportAccident.xaml.cs">
       <DependentUpon>ReportAccident.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\SettingsPage.xaml.cs">
-      <DependentUpon>SettingsPage.xaml</DependentUpon>
+    <Compile Include="Views\SignUp.xaml.cs">
+      <DependentUpon>SignUp.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Tuto.xaml.cs">
+      <DependentUpon>Tuto.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -140,20 +155,55 @@
   <ItemGroup>
     <Content Include="Assets\accident.png" />
     <Content Include="Assets\accountlocation.png" />
+    <Content Include="Assets\alert_icon.png" />
+    <Content Include="Assets\ambulance.png" />
+    <Content Include="Assets\ambulance1.png" />
     <Content Include="Assets\basic1-170_paper_plane-512.png" />
+    <Content Include="Assets\bleed-icon.png" />
+    <Content Include="Assets\broken-bone-icon.png" />
+    <Content Include="Assets\broken-bone.png" />
     <Content Include="Assets\bw-accident.png" />
     <Content Include="Assets\camera.png" />
+    <Content Include="Assets\choking-icon.png" />
     <Content Include="Assets\croissant.png" />
     <Content Include="Assets\danger-512.png" />
+    <Content Include="Assets\diabetic-icon.png" />
+    <Content Include="Assets\elevation.png" />
+    <Content Include="Assets\firefighters-icon-23274.png" />
+    <Content Include="Assets\headinjury-icon.png" />
     <Content Include="Assets\headinjuryicon.png" />
+    <Content Include="Assets\heart-icon.png" />
     <Content Include="Assets\icon-profile.png" />
+    <Content Include="Assets\IPCC Accounts Important Topics Notes Chapters.png" />
     <Content Include="Assets\Location-Map-icon.png" />
     <Content Include="Assets\male_shadow.png" />
+    <Content Include="Assets\map_roads.png" />
     <Content Include="Assets\member_shadow.png" />
+    <Content Include="Assets\Next_Arrow.svg.png" />
     <Content Include="Assets\no-image-icon.jpg" />
+    <Content Include="Assets\poisoning-icon.png" />
+    <Content Include="Assets\police-station.png" />
     <Content Include="Assets\redcres1.png" />
     <Content Include="Assets\redcress.png" />
+    <Content Include="Assets\rport.png" />
+    <Content Include="Assets\Screenshot %2822%29.png" />
+    <Content Include="Assets\Screenshot %28233%29.png" />
+    <Content Include="Assets\Screenshot %28256%29.png" />
+    <Content Include="Assets\Screenshot %2826%29.png" />
+    <Content Include="Assets\Screenshot %282732%29.png" />
+    <Content Include="Assets\sign-in-facebook.png" />
+    <Content Include="Assets\SplashScreen.scale-100.png" />
+    <Content Include="Assets\SplashScreen.scale-125.png" />
+    <Content Include="Assets\SplashScreen.scale-150.png" />
+    <Content Include="Assets\SplashScreen.scale-400.png" />
+    <Content Include="Assets\Square150x150Logo.scale-100.png" />
+    <Content Include="Assets\Square150x150Logo.scale-125.png" />
+    <Content Include="Assets\Square150x150Logo.scale-150.png" />
+    <Content Include="Assets\Square150x150Logo.scale-400.png" />
+    <Content Include="Assets\stroke-icon.png" />
     <Content Include="Assets\thin-012_mail_envelope_email_sent-512.png" />
+    <Content Include="Assets\contact-icon.png" />
+    <Content Include="Assets\unconscious-not-breathing-icon.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
@@ -163,6 +213,7 @@
     <Content Include="Assets\StoreLogo.png" />
     <Content Include="Assets\Wide310x150Logo.scale-200.png" />
     <Content Include="ReadMe.txt" />
+    <Content Include="Assets\user-512.png" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -182,7 +233,19 @@
       <Generator>MSBuild:Compile</Generator>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Page>
+    <Page Include="Views\AccidentHandle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Initialize.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Login.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Logout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -202,9 +265,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\SettingsPage.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Views\SignUp.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Tuto.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,19 @@
+﻿<Page
+    x:Class="CRT.Views.Initialize"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:CRT.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d" Foreground="Black" Background="White">
+
+    <Grid BorderBrush="White">
+        <Grid.Background>
+            <SolidColorBrush Color="White"/>
+        </Grid.Background>
+        <Image x:Name="image"  HorizontalAlignment="Center" Width="150" Height="150" VerticalAlignment="Center" Source="ms-appx:///Assets/Square150x150Logo.scale-400.png"/>
+        <RelativePanel HorizontalAlignment="Left" Height="90" VerticalAlignment="Top" Width="340" Margin="10,10,0,0">
+            <ProgressBar HorizontalAlignment="Stretch" Height="70" VerticalAlignment="top" Width="320"  Background="White" IsIndeterminate="True" Foreground="#FFD32F2F" Margin="10,10,-10,-10"/>
+        </RelativePanel>
+    </Grid>
+</Page>

@@ -8,53 +8,40 @@ using Quobject.EngineIoClientDotNet.ComponentEmitter;
 using System.Diagnostics;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using static Quobject.EngineIoClientDotNet.Client.Socket;
 
 namespace CRT.Controls
 {
    public  class SocketHandler
     {
         public  Socket socket;
-
-       
+        private IO.Options opts;
 
         public SocketHandler()
         {
-            socket = IO.Socket("http://crt-server-ibicha.c9users.io");
-            socket.Connect();
-            socket.On("Members", OnMembers);
-            socket.On("SharingON", OnSharingOn);
 
+            IO.Options opt = new IO.Options();
+            opt.Timeout = 5000;
+            socket = IO.Socket("http://crt-server-ibicha.c9users.io",opts);
+            socket.Connect();
+            socket.On("Accident", OnAccident);
+
+           
             StaticData.socket = socket;
             
         }
-      
         
+
         public void OnAccident()
         {
+            Debug.WriteLine("Accident");
             AppShell.ShowNotification("Emergency", "New nearby Accident");
         }
-        public void OnSharingOn(object data)
-        {
-            Debug.WriteLine("Sharing : "+data); 
-        }
-        public void OnSharingOFF()
-        {
-        }
-        public void OnDisconnect()
-        {
-
-        }
-        public void OnLocation()
-        {
-
-        }
-        public void OnMembers(object data)
-        {
-            
-        }
+        
+    
         public class SocketMember
         {
-            public string UserID { get; set; }
+            public string id { get; set; }
             public bool IsMember { get; set; }
             public bool IsAdmin { get; set; }
             public bool Sharing { get; set; }
@@ -72,12 +59,13 @@ namespace CRT.Controls
             public double Longitude { get; set; }
             public double Latitude { get; set; }
             public double Accuracy { get; set; }
-            public int Timestamp { get; set; }
+            public double Timestamp { get; set; }
 
         }
         public static void EmitSharingOn()
         {
             if (StaticData.LastLocation != null && StaticData.socket!=null) {
+                Debug.WriteLine("emit sharing");
                 JObject data=new JObject();
                 JObject location = new JObject();
                 location.Add("Longitude", StaticData.LastLocation.Point.Position.Longitude);
@@ -88,5 +76,11 @@ namespace CRT.Controls
                 StaticData.socket.Emit("SharingON", data);
              }
         }
+        public static void EmitSharingOFF()
+        {
+            StaticData.socket.Emit("SharingOFF");
+
+        }
+
     }
 }

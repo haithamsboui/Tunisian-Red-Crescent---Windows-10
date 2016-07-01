@@ -8,52 +8,28 @@
     x:Class="CRT.Views.Profile"
     mc:Ignorable="d">
 
-    <ScrollViewer Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-		EntranceNavigationTransitionInfo.IsTargetElement="True"
-        HorizontalScrollBarVisibility="Auto" 
-        VerticalScrollBarVisibility="Auto" >
-        <Grid Height="640" Width="360">
-            <Image x:Name="image" Margin="10,10,10,401" Source="ms-appx:///Assets/icon-profile.png"/>
-            <Pivot Title="Profile" Margin="10,230,10,10">
-                <PivotItem Header="Personal" Margin="0,0,10,-5">
-                    <Grid Margin="0,0,10,0">
-                        <StackPanel Margin="0,0,10,0">
-                            <TextBlock x:Name="textBlock" Margin="0,0,45,0" TextWrapping="Wrap" Text="First name" RenderTransformOrigin="-2.355,-3.448" FontSize="26.667" FontWeight="Bold" Height="50"/>
-                            <TextBlock x:Name="Firstname" TextWrapping="Wrap" Text="" FontSize="21.333" Margin="0,0,10,10"/>
-                            <TextBlock x:Name="textBlock_Copy" Margin="4,0,85,0" TextWrapping="Wrap" Text="Last name" RenderTransformOrigin="-2.355,-3.448" FontSize="26.667" FontWeight="Bold" Height="44"/>
-                            <TextBlock x:Name="lastname" Margin="4,0,10,10" TextWrapping="Wrap" Text="" FontSize="21.333"/>
-                            <TextBlock x:Name="textBlock_Copy1" HorizontalAlignment="Left" TextWrapping="Wrap" Text="Email" RenderTransformOrigin="-2.355,-3.448" FontSize="26.667" FontWeight="Bold" Height="44" Width="225"/>
-                            <TextBlock x:Name="email" Margin="0,0,10,10" TextWrapping="Wrap" Text="" FontSize="21.333" SelectionChanged="email_SelectionChanged"/>
-                        </StackPanel>
-                    </Grid>
-                </PivotItem>
-                <PivotItem Header="Extra info" Margin="10,0">
-                    <Grid Margin="0,0,10,0">
-                        <StackPanel Height="375" Margin="0,0,10,-70">
-                            <TextBlock x:Name="textBlock2" Margin="0,0,108,0" TextWrapping="Wrap" Text="National ID" RenderTransformOrigin="-2.355,-3.448" FontSize="26.667" FontWeight="Bold" Height="50" SelectionChanged="textBlock2_SelectionChanged"/>
-                            <TextBlock x:Name="NationalID" TextWrapping="Wrap" Text="" FontSize="21.333" Margin="0,0,10,10"/>
-                            <TextBlock x:Name="textBlock_Copy2" Margin="4,0,195,0" TextWrapping="Wrap" RenderTransformOrigin="-2.355,-3.448" FontSize="26.667" FontWeight="Bold" Height="44">
-                    			<Run Text="Blood Type"/>
+    <ScrollViewer HorizontalAlignment="Left" Width="360" Margin="0,50,0,0">
 
-                            </TextBlock>
-                            <TextBlock x:Name="bloodtype" Margin="4,0,10,10" TextWrapping="Wrap" Text="Last" FontSize="21.333"/>
-                            <TextBlock x:Name="textBlock_Copy3" TextWrapping="Wrap" Text="Birth Date" RenderTransformOrigin="-2.355,-3.448" FontSize="26.667" FontWeight="Bold" Height="44" SelectionChanged="textBlock_Copy3_SelectionChanged" Margin="0,0,226,0"/>
-                            <DatePicker x:Name="Birth" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-                        </StackPanel>
-                    </Grid>
-                </PivotItem>
-                <PivotItem Header="Location" Margin="12,0,10,0">
-                    <Grid Margin="0,0,10,0">
-                        <StackPanel Margin="0,0,10,0">
-                            <Grid Height="60">
-                                <TextBlock x:Name="textBlock4" Margin="0,10,175,10" TextWrapping="Wrap" Text="Sharing" RenderTransformOrigin="-2.355,-3.448" FontSize="26.667" FontWeight="Bold" SelectionChanged="textBlock2_SelectionChanged"/>
-                                <ToggleSwitch x:Name="toggleSwitch" Header="" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="128,10,10,10" Toggled="toggleSwitch_Toggled" IsOn="True"/>
-                            </Grid>
-                            <Maps:MapControl Height="245" Margin="0,0,10,0"/>
-                        </StackPanel>
-                    </Grid>
-                </PivotItem>
-            </Pivot>
+        <Grid Width="360" Background="White" Padding="0,0,0,0" Height="680">
+            <TextBlock  x:Name="Firstname" TextWrapping="Wrap" Text="" FontSize="16" Margin="10,11,0,0" Foreground="#FF7E7D7D" HorizontalAlignment="Left" VerticalAlignment="Top" Width="300" FontWeight="Bold" Height="32"/>
+            <Ellipse Margin="10,43,150,437" Height="200" Width="200">
+                <Ellipse.Fill>
+                    <ImageBrush x:Name="image" ImageSource="ms-appx:///ms-appx:///Assets/icon-profile.png" />
+                </Ellipse.Fill>
+            </Ellipse>
+            <TextBlock x:Name="lastname" Margin="320,6,10,585" TextWrapping="Wrap" Text="" FontSize="16" Foreground="Black"/>
+            <StackPanel Margin="10,260,10,10">
+                <TextBlock x:Name="emailBlock" Margin="10,0" TextWrapping="Wrap" Text="Email" RenderTransformOrigin="-2.355,-3.448" FontSize="18" Height="30" SelectionChanged="textBlock2_SelectionChanged" Foreground="#FFD32F2F"/>
+                <TextBlock x:Name="email" Margin="10,0" TextWrapping="Wrap" Text="txt" FontSize="12" SelectionChanged="email_SelectionChanged" Height="29" Foreground="Black"/>
+                <TextBlock x:Name="NationalIDBlock" Margin="10,0" TextWrapping="Wrap" Text="National ID" RenderTransformOrigin="-2.355,-3.448" FontSize="18" Height="30" SelectionChanged="textBlock2_SelectionChanged" Foreground="#FFD32F2F"/>
+                <TextBlock x:Name="NationalID" TextWrapping="Wrap" Text="txt" FontSize="12" Margin="10,0,10,0" Height="31" Foreground="Black"/>
+                <TextBlock x:Name="bloodtypeBlock"  Text="Blood Type" Margin="10,0" TextWrapping="Wrap" RenderTransformOrigin="-2.355,-3.448" FontSize="18" Height="26" Foreground="#FFD32F2F"/>
+                <TextBlock x:Name="bloodtype" Margin="10,0,10,0" TextWrapping="Wrap" Text="txt" FontSize="12" Height="34" Foreground="Black"/>
+                <TextBlock x:Name="BirthdateBlock" TextWrapping="Wrap" Text="Birth Date" RenderTransformOrigin="-2.355,-3.448" FontSize="18" Height="40" SelectionChanged="textBlock_Copy3_SelectionChanged" Margin="10,0,173,0" Foreground="#FFD32F2F"/>
+                <TextBlock x:Name="Birthdate" Margin="10,0,10,0" TextWrapping="Wrap" Text="txt" FontSize="12" Height="34" Foreground="Black"/>
+                <TextBlock x:Name="SharingBlock" TextWrapping="Wrap" Text="Location Sharing" RenderTransformOrigin="-2.355,-3.448" FontSize="18" Height="40" SelectionChanged="textBlock_Copy3_SelectionChanged" Margin="10,0,173,0" Foreground="#FFD32F2F"/>
+                <ToggleSwitch x:Name="toggleSwitch"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Foreground="#FFD32F2F" IsOn="True"/>
+            </StackPanel>
         </Grid>
     </ScrollViewer>
 </Page>

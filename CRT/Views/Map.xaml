@@ -9,8 +9,9 @@
     mc:Ignorable="d">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-		EntranceNavigationTransitionInfo.IsTargetElement="True">
+		EntranceNavigationTransitionInfo.IsTargetElement="True" Margin="0,48,0,0">
         <Maps:MapControl x:Name="CrtMap" MapServiceToken="UKKoTM4Jg68x8fEyHAc1~BtKulEmnFRJJmrIzkY68EA~ApboS1ZcO5Z3GaqfrqbdlB2vykTCT7afGsJRt27YY6d18BxgrF3MliAlxkjqNPo6"/>
+        <ProgressRing x:Name="SearchingLocation" VerticalAlignment="Center" HorizontalAlignment="Center" Height="115" Margin="110,242,135,235" Width="115" Foreground="#FFD32F2F" IsActive="True"/>
 
         <!--Set Visibility to Visible when access to location is denied -->
         <TextBlock x:Name="LocationDisabledMessage" FontStyle="Italic" 
@@ -21,7 +22,13 @@
               </Hyperlink>
           <Run Text=" to check the location privacy settings."/>
         </TextBlock>
-        <StackPanel HorizontalAlignment="Right" Height="89" Margin="0,0,10,10" VerticalAlignment="Bottom" Width="45"  Background="#33000000" Opacity="0.7">
+        <StackPanel HorizontalAlignment="Right" Height="180" Margin="0,0,10,35" VerticalAlignment="Bottom" Width="45"  Background="White" Opacity="0.7">
+            <Button x:Name="TerrainView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="45" Background="#33000000" Opacity="0.7" Click="TerrainView_Click">
+                <Image Source="ms-appx:///Assets/elevation.png"/>
+            </Button>
+            <Button x:Name="RoadsView" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="45" Background="#33000000" Opacity="0.7" Click="RoadsView_Click">
+                <Image Source="ms-appx:///Assets/map_roads.png"/>
+            </Button>
             <Button x:Name="MyLocation" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Height="45" Background="#33000000" Opacity="0.7" d:LayoutOverrides="LeftPosition, RightPosition" Click="MyLocation_Click">
                 <Image Source="ms-appx:///Assets/Location-Map-icon.png"/>
             </Button>

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.Foundation.Metadata;
@@ -18,10 +19,20 @@ namespace CRT
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
         /// </summary>
+        /// 
+        bool runTuto;
         public App()
         {
+            runTuto = false;
             this.InitializeComponent();
             this.Suspending += OnSuspending;
+            if(!IsolatedStorageHelper.GetObject<bool>("tutoIsDone"))
+            {
+                runTuto = true;
+                IsolatedStorageHelper.SaveObject<bool>("tutoIsDone", true);
+            }
+
+
         }
 
         /// <summary>
@@ -29,14 +40,9 @@ namespace CRT
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
+        /*
         protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
-#if DEBUG
-            if (System.Diagnostics.Debugger.IsAttached)
-            {
-                this.DebugSettings.EnableFrameRateCounter = false;
-            }
-#endif
 
             AppShell shell = Window.Current.Content as AppShell;
 
@@ -71,6 +77,50 @@ namespace CRT
             // Ensure the current window is active
             Window.Current.Activate();
         }
+        */
+
+        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        {
+            runTuto = true;
+            UIElement shell=null;
+
+            if ( runTuto)
+            {
+                shell = Window.Current.Content as Views.Tuto;
+            }
+            else
+             shell = Window.Current.Content as Views.Initialize;
+
+            // Do not repeat app initialization when the Window already has content,
+            // just ensure that the window is active
+            if (shell == null)
+            {
+                // Create a AppShell to act as the navigation context and navigate to the first page
+                if (runTuto)
+                {
+                    shell = new Views.Tuto();
+                }
+                else
+                {
+                    shell = new Views.Initialize();
+                }
+                // Set the default language
+               // shell.Language = Windows.Globalization.ApplicationLanguages.Languages[0];
+
+                //shell.AppFrame.NavigationFailed += OnNavigationFailed;
+
+                if (e.PreviousExecutionState == ApplicationExecutionState.Terminated)
+                {
+                    //TODO: Load state from previously suspended application
+                }
+            }
+
+            // Place our app shell in the current Window
+            Window.Current.Content = shell;
+
+            // Ensure the current window is active
+            Window.Current.Activate();
+        }
 
         /// <summary>
         /// Invoked when Navigation to a certain page fails
@@ -89,6 +139,7 @@ namespace CRT
         /// </summary>
         /// <param name="sender">The source of the suspend request.</param>
         /// <param name="e">Details about the suspend request.</param>
+        /// 
         private void OnSuspending(object sender, SuspendingEventArgs e)
         {
             var deferral = e.SuspendingOperation.GetDeferral();

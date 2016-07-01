@@ -5,7 +5,7 @@ using System.IO;
 using System.Threading.Tasks;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Media.Imaging;
-
+using Windows.UI.Xaml;
 namespace CRT.Views
 {
     /// <summary>
@@ -16,20 +16,62 @@ namespace CRT.Views
         public Profile()
         {
             this.InitializeComponent();
-            Firstname.Text = StaticData.currentUser.Firstname;
-            lastname.Text = StaticData.currentUser.Lastname;
+            toggleSwitch.IsOn= IsolatedStorageHelper.GetObject<bool>("IsSharing"); 
+            Firstname.Text = (StaticData.currentUser.Firstname+" "+ StaticData.currentUser.Lastname).ToUpper();
+          
             email.Text = StaticData.currentUser.Email;
-            Birth.Date = StaticData.currentUser.BirthDate.Date;
-            
+            Birthdate.Text = StaticData.currentUser.BirthDate.Date.Day+"/"+ 
+                StaticData.currentUser.BirthDate.Date.Month + "/"
+                + StaticData.currentUser.BirthDate.Date.Year;
             SetImage();
+            if(!StaticData.currentUser.IsAdmin)
+            {
+                toggleSwitch.Visibility = Visibility.Collapsed;
+            }
+          //  toggleSwitch.DataContextChanged += SharingChanged;
+            toggleSwitch.Toggled += ToggleChange;
         }
-        public async void SetImage()
+
+        private void ToggleChange(object sender, RoutedEventArgs e)
         {
-           /* Task <BitmapImage> task = LoadImage(new Uri(StaticData.currentUser.ImageFile));
-            await Task.WhenAll(task);
-            BitmapImage img = task.Result;
-            Debug.WriteLine("uri : " + img.PixelHeight+ " uri : "+img.PixelWidth);*/
-            image.Source = new BitmapImage(new Uri(StaticData.currentUser.ImageFile, UriKind.Absolute)); ;
+            if (toggleSwitch.IsOn)
+            {
+                SocketHandler.EmitSharingOn();
+                IsolatedStorageHelper.SaveObject<bool>("IsSharing", true);
+
+            }
+            else
+            {
+           
+
+                SocketHandler.EmitSharingOFF();
+                IsolatedStorageHelper.SaveObject<bool>("IsSharing", false);
+
+            }
+        }
+
+        private void SharingChanged(FrameworkElement sender, DataContextChangedEventArgs args)
+        {
+            
+            if (toggleSwitch.IsOn)
+            {
+                SocketHandler.EmitSharingOn();
+            }
+            else
+            {
+
+                SocketHandler.EmitSharingOFF();
+            }
+        }
+
+      
+        public void SetImage()
+        {
+      
+            BitmapImage img = new BitmapImage(new Uri(StaticData.currentUser.ImageFile, UriKind.Absolute)); ;
+            img.DecodePixelHeight = 200;
+            img.DecodePixelWidth = 200;
+            image.ImageSource = img; 
         }
 
 

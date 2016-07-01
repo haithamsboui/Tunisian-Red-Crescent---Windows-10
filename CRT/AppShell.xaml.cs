@@ -19,6 +19,9 @@ using Quobject.EngineIoClientDotNet.ComponentEmitter;
 using Windows.Devices.Geolocation;
 using Windows.Data.Xml.Dom;
 using Windows.UI.Notifications;
+using System.Threading.Tasks;
+using Windows.UI.Popups;
+using Windows.Networking.Connectivity;
 
 namespace CRT
 {
@@ -31,6 +34,8 @@ namespace CRT
 
         // Declare the top level nav items
         public static AppShell get;
+        public Geolocator geolocator;
+        public bool OfflineMode;
         public bool isConnected = false;
         public Models.User user { get; set; }
         private List<NavMenuItem> ConnectedNavlist = new List<NavMenuItem>(
@@ -38,28 +43,32 @@ namespace CRT
             {
                 new NavMenuItem()
                 {
-                    Symbol = Symbol.Contact,
+                    Symbol = Symbol.Map,
                     Label = "Map",
                     DestinationPage = typeof(Views.Map)
                 },
                 new NavMenuItem()
                 {
-                    Symbol = Symbol.Edit,
+                    Symbol = Symbol.Contact,
                     Label = "Profile",
                     DestinationPage = typeof(Views.Profile)
                 },
                 new NavMenuItem()
                 {
-                    Symbol = Symbol.Favorite,
+                    Symbol = Symbol.Bookmarks,
                     Label = "Emergency guide",
                     DestinationPage = typeof(Views.EmergencyGuide)
                 },
                 new NavMenuItem()
                 {
-                    Symbol = Symbol.Link,
+                    Symbol = Symbol.Send,
                     Label = "Report Accident",
-                    DestinationPage = typeof(Uri),
-                    Arguments = "http://scottge.net/product/uwp-windows-10-sample-navigation-panes",
+                    DestinationPage = typeof(Views.ReportAccident)
+                }, new NavMenuItem()
+                {
+                    Symbol = Symbol.Import,
+                    Label = "Logout",
+                    DestinationPage = typeof(Views.Logout)
                 }
             });
         private List<NavMenuItem> OfflineNavlist = new List<NavMenuItem>(
@@ -67,23 +76,40 @@ namespace CRT
             {
                 new NavMenuItem()
                 {
-                    Symbol = Symbol.Contact,
+                    Symbol = Symbol.Map,
                     Label = "Map",
                     DestinationPage = typeof(Views.Map)
                 },
                 new NavMenuItem()
                 {
-                    Symbol = Symbol.Edit,
+                    Symbol = Symbol.Contact,
                     Label = "Login",
                     DestinationPage = typeof(Views.Login)
                 },
                 new NavMenuItem()
                 {
-                    Symbol = Symbol.Favorite,
+                    Symbol = Symbol.Bookmarks,
                     Label = "Emergency guide",
                     DestinationPage = typeof(Views.EmergencyGuide)
                 },
                
+            });
+        private List<NavMenuItem> NoInternetNavlist = new List<NavMenuItem>(
+            new[]
+            {
+                new NavMenuItem()
+                {
+                    Symbol = Symbol.Map,
+                    Label = "Map",
+                    DestinationPage = typeof(Views.Map)
+                },
+                new NavMenuItem()
+                {
+                    Symbol = Symbol.Bookmarks,
+                    Label = "Emergency guide",
+                    DestinationPage = typeof(Views.EmergencyGuide)
+                },
+
             });
         public static AppShell Current = null;
 
@@ -92,29 +118,88 @@ namespace CRT
         /// adds callbacks for Back requests and changes in the SplitView's DisplayMode, and
         /// provide the nav menu list with the data to display.
         /// </summary>
-        public AppShell()
+        public AppShell(bool OfflineMode=false)
         {
-            Controls.StaticData.appShell = this;
             this.InitializeComponent();
+            StaticData.IsOnline = !OfflineMode;
+            Controls.StaticData.appShell = this;
             this.Loaded += (sender, args) =>
             {
                 Current = this;
-
                 this.TogglePaneButton.Focus(FocusState.Programmatic);
             };
-
             SystemNavigationManager.GetForCurrentView().BackRequested += SystemNavigationManager_BackRequested;
 
-            // If on a phone device that has hardware buttons then we hide the app's back button.
+            if (!OfflineMode)
+            {
+                ConnectionPanel.Visibility = Visibility.Collapsed;
 
-            NavMenuList.ItemsSource = OfflineNavlist;
-            SocketHandler socketHandler = new SocketHandler();
+                SetNavList();
+            }
+            else
+            {
+                SetNoInternetNavList();
+                ConnectionPanel.Visibility = Visibility.Visible;
 
-
-
-
+            }
+            SetupLocationListner();
+            NetworkInformation.NetworkStatusChanged += NetworkStatusChanged;
         }
 
+        private async void NetworkStatusChanged(object sender)
+        {
+            if (HasInternetAccess())
+            {
+
+                /* var dialog = new MessageDialog("Switching Online mode ...");
+                 await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                 {
+                     StaticData.DialogAsyncOperation = null;
+                     StaticData.DialogAsyncOperation=  dialog.ShowAsync();
+                     await StaticData.DialogAsyncOperation;
+                 });
+                 */
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    ConnectionPanel.Visibility = Visibility.Collapsed;
+                });
+                if (StaticData.currentUser == null)
+                {
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        SetOfflineNavList();
+                    });
+                }
+                else
+                {
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        SetConnectedNavList();
+                    });
+                }
+            }
+            else
+            {
+                await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                {
+                    ConnectionPanel.Visibility = Visibility.Visible;
+                });
+
+              //  RequestInternet();
+            }
+        }
+
+        void SetNavList()
+        {
+            if (StaticData.currentUser == null)
+            {
+                SetOfflineNavList();
+            }
+            else
+            {
+                SetConnectedNavList();
+            }
+        }
         public Frame AppFrame { get { return this.frame; } }
 
         /// <summary>
@@ -195,17 +280,7 @@ namespace CRT
 
         #endregion
 
-        #region Settings
-
-        private void SettingsButton_Click(object sender, RoutedEventArgs e)
-        {
-            if (this.AppFrame.CurrentSourcePageType != typeof(SettingsPage))
-            {
-                this.AppFrame.Navigate(typeof(SettingsPage), null);
-            }
-        }
-
-        #endregion
+     
 
         #region Navigation
 
@@ -214,6 +289,7 @@ namespace CRT
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="listViewItem"></param>
+        /// 
         private async void NavMenuList_ItemInvoked(object sender, ListViewItem listViewItem)
         {
             var item = (NavMenuItem)((NavMenuListView)sender).ItemFromContainer(listViewItem);
@@ -342,8 +418,8 @@ namespace CRT
             var handler = this.TogglePaneButtonRectChanged;
             if (handler != null)
             {
-                // handler(this, this.TogglePaneButtonRect);
-                handler.DynamicInvoke(this, this.TogglePaneButtonRect);
+                 handler(this, this.TogglePaneButtonRect);
+              //  handler.DynamicInvoke(this, this.TogglePaneButtonRect);
             }
         }
 
@@ -380,6 +456,11 @@ namespace CRT
             NavMenuList.ItemsSource = OfflineNavlist;
 
         }
+        public void SetNoInternetNavList()
+        {
+            NavMenuList.ItemsSource = NoInternetNavlist;
+
+        }
         public static void ShowNotification(string Title, string Content)
         {
             var xmlToastTemplate = "<toast launch=\"app-defined-string\">" +
@@ -400,5 +481,226 @@ namespace CRT
             notification.Show(toastNotification);
         }
 
+        public async void SetupLocationListner()
+        {
+           // Debug.WriteLine("Setup : " + " " + (StaticData.currentUser != null) + " " + (StaticData.currentUser.IsAdmin) + " " + (StaticData.IsSharing));
+            geolocator = new Geolocator();
+            geolocator.ReportInterval = 4000;
+            geolocator.DesiredAccuracyInMeters = 100;
+            geolocator.MovementThreshold = 0.1;
+            geolocator.StatusChanged += OnLocationStatusChanged;
+            geolocator.PositionChanged += OnPositionChanged;
+            this.AppFrame.Navigate(typeof(Map),null);
+
+            GeolocationAccessStatus accessStatus = await Geolocator.RequestAccessAsync();
+            switch (accessStatus)
+            {
+                case GeolocationAccessStatus.Allowed:
+
+                    try
+                    { 
+                    Geoposition gp = await geolocator.GetGeopositionAsync();
+                    StaticData.LastLocation = gp.Coordinate;
+                        if (StaticData.currentUser != null)
+                        {
+                            if (StaticData.currentUser.IsAdmin && StaticData.IsSharing)
+                            {
+                                SocketHandler.EmitSharingOn();
+                        }
+                        }
+                    
+                    }
+                    catch (Exception e)
+                    {
+                        await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+                        {
+                            var dialog = new MessageDialog("Couldn't locate your position");
+                            await dialog.ShowAsync();
+                        });
+                        }
+                    break;
+
+                case GeolocationAccessStatus.Denied:
+                    RequestLocation();
+                    break;
+
+                case GeolocationAccessStatus.Unspecified:
+                    RequestLocation();
+                    break;
+            }
+
+        }
+
+        private async void OnPositionChanged(Geolocator sender, PositionChangedEventArgs args)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                StaticData.LastLocation = args.Position.Coordinate;
+            });
+
+
+        }
+
+        public async void OnLocationStatusChanged(Geolocator sender, StatusChangedEventArgs e)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, (DispatchedHandler)(() =>
+            {
+                // Show the location setting message only if status is disabled.
+
+                switch (e.Status)
+                {
+                    case PositionStatus.Ready:
+
+                        // Location platform is providing valid data.
+                        break;
+
+                    case PositionStatus.Initializing:
+
+                        // Location platform is attempting to acquire a fix. 
+                        break;
+
+                    case PositionStatus.NoData:
+                        this.RequestLocation();
+
+                        // Location platform could not obtain location data.
+                        break;
+
+                    case PositionStatus.Disabled:
+
+                        this.RequestLocation();
+                        // Clear any cached location data.
+                        break;
+
+                    case PositionStatus.NotInitialized:
+                        this.RequestLocation();
+
+                        // The location platform is not initialized. This indicates that the application 
+                        // has not made a request for location data.
+                        break;
+
+                    case PositionStatus.NotAvailable:
+                        this.RequestLocation();
+
+                        // The location platform is not available on this version of the OS.
+                        break;
+
+                    default:
+                        // ScenarioOutput_Status.Text = "Unknown";
+                        //rootPage.NotifyUser(string.Empty, NotifyType.StatusMessage);
+                        break;
+                }
+            }));
+        }
+        public async void RequestLocation()
+        {
+            var messageDialog = new MessageDialog("Couldn't access location service.");
+
+            messageDialog.Commands.Add(new UICommand(
+                "enable",
+                new UICommandInvokedHandler(this.locationRequestHandler)));
+            messageDialog.Commands.Add(new UICommand(
+                "cancel",
+                new UICommandInvokedHandler(this.locationRequestHandler)));
+            messageDialog.DefaultCommandIndex = 0;
+            messageDialog.CancelCommandIndex = 1;
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                try { 
+                await messageDialog.ShowAsync();
+            }
+                catch (Exception e)
+            {
+                Debug.WriteLine("error " + e.Message + " " + e.Source);
+            }
+        });
+        }
+        public async void RequestInternet()
+        {
+            var messageDialog = new MessageDialog("No internet connection found! enter offline mode ?");
+
+            messageDialog.Commands.Add(new UICommand(
+                "yes",
+                new UICommandInvokedHandler(this.internetRequestHandler)));
+            messageDialog.Commands.Add(new UICommand(
+                "no",
+                new UICommandInvokedHandler(this.internetRequestHandler)));
+            messageDialog.DefaultCommandIndex = 0;
+            messageDialog.CancelCommandIndex = 1;
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, async () =>
+            {
+                
+                StaticData.DialogAsyncOperation = null;
+                StaticData.DialogAsyncOperation = messageDialog.ShowAsync();
+                await StaticData.DialogAsyncOperation;
+            });
+        }
+        public async void internetRequestHandler(IUICommand command)
+        {
+            switch (command.Label)
+            {
+                case "no":
+                    bool result = await Launcher.LaunchUriAsync(new Uri("ms-settings:network-wifi"));
+                    break;
+
+                case "yes":
+                    await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+                    {
+                        SetNoInternetNavList();
+                    });
+                    break;
+                default:
+                    break;
+            }
+        }
+        public async void locationRequestHandler(IUICommand command)
+        {
+            switch (command.Label)
+            {
+                case "enable":
+                    bool result = await Launcher.LaunchUriAsync(new Uri("ms-settings:privacy-location"));
+
+                    break;
+                case "cancel":
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        private bool HasInternetAccess()
+        {
+            var connectionProfile = NetworkInformation.GetInternetConnectionProfile();
+            return  (connectionProfile != null &&
+                                 connectionProfile.GetNetworkConnectivityLevel() ==
+                                 NetworkConnectivityLevel.InternetAccess);
+        }
+
+        public static async Task<Geocoordinate> RequestLocationAsync(bool IgnoreNull=true)
+        {
+            Geocoordinate gCoord = null;
+            GeolocationAccessStatus accessStatus = await Geolocator.RequestAccessAsync();
+            switch (accessStatus)
+            {
+                case GeolocationAccessStatus.Allowed:
+                        Geoposition gp = await StaticData.appShell.geolocator.GetGeopositionAsync();
+                        StaticData.LastLocation = gp.Coordinate;
+                    break;
+
+                case GeolocationAccessStatus.Denied:
+                    if(IgnoreNull)
+                    {
+
+                    }
+                        break;
+
+                case GeolocationAccessStatus.Unspecified:
+                    if (IgnoreNull)
+                    {
+
+                    }
+                    break;
+            }
+            return gCoord;
+        }
     }
 }

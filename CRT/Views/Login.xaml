@@ -8,20 +8,28 @@
     xmlns:fbsdk="using:winsdkfb"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Margin="0,48,0,0">
         <RelativePanel Margin="10">
-            <Image x:Name="image" HorizontalAlignment="Left" Margin="95,55,-245,327" Width="150" Source="ms-appx:///Assets/redcress.png" Stretch="Fill" NineGrid="0" Height="150"/>
 
-            <TextBox x:Name="Email" Height="32" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Margin="12,283,-332,-283" PlaceholderText="Email"/>
-            <TextBox x:Name="Password" Height="32" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Margin="0,320,-332,-320" TextChanged="textBox_Copy_TextChanged" HorizontalAlignment="Right" Width="320" PlaceholderText="Password"/>
-            <Button x:Name="SignUp" Content="Sign up&#xD;&#xA;" HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Margin="252,357,-332,-353" Click="button_Click" RenderTransformOrigin="0.5,0.821" FontSize="13.333"/>
-            <TextBlock x:Name="ForgottenPassword" TextWrapping="Wrap" Text="Forgot pasword ?" Margin="239,0,-323.333,-412" SelectionChanged="textBlock_SelectionChanged" Height="20" VerticalAlignment="Bottom" FontSize="12"/>
-            <Button x:Name="SignIn" Content="Sign in" HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Margin="167,357,-247,-353" Click="button_Click" RenderTransformOrigin="0.5,0.821" FontSize="13.333"/>
-            <fbsdk:FBLoginButton x:Name="LoginFb"  Margin="12,357,-95,-375"   Click="LoginFb_Click" Height="30" Width="103"  >
+            <Rectangle Fill="White" Margin="-35,245,-370,-645"/>
 
+            <TextBox InputScope="EmailNameOrAddress" x:Name="Email" Height="32" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Margin="10,311,-330,-311" PlaceholderText="Email" BorderBrush="#FFD32F2F"/>
+            <PasswordBox x:Name="Password"  Height="32"  VerticalAlignment="Top" Margin="0,366,-330,-366"  HorizontalAlignment="Right" Width="320" PlaceholderText="Password" BorderBrush="#FFD32F2F"/>
+            <Button x:Name="SignUp" Content="Sign up" HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Margin="163,450,-243,-446" Click="SignUp_Click" RenderTransformOrigin="0.5,0.821" FontSize="13.333" BorderBrush="#FFD32F2F" Background="#FFD32F2F" Foreground="White"/>
+            <Button x:Name="SignIn" Content="Log in" HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Margin="248,450,-328,-446" Click="button_Click" RenderTransformOrigin="0.5,0.821" FontSize="13.333" BorderBrush="#FFD32F2F" Background="#FFD32F2F" Foreground="White"/>
+            <fbsdk:FBLoginButton x:Name="LoginFb"  Margin="3,0,-340,-610"   Click="LoginFb_Click" Height="64" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="330" Visibility="Collapsed"  >
+                <fbsdk:FBLoginButton.Background>
+                    <ImageBrush ImageSource="ms-appx:///Assets/sign-in-facebook.png" Stretch="UniformToFill"/>
+                </fbsdk:FBLoginButton.Background>
             </fbsdk:FBLoginButton>
             <fbsdk:ProfilePictureControl x:Name="ProfilePic" Margin="10,387,-330,-610" Visibility="Collapsed"/>
+            <CheckBox x:Name="RememberMe" Content="Remember me" HorizontalAlignment="Right" Height="32" VerticalAlignment="Top" Margin="0,448,-153,-448" Checked="checkBox_Checked" BorderBrush="White" Foreground="White" Padding="10,5,10,0" d:LayoutOverrides="HorizontalAlignment" Background="#FFD32F2F" UseLayoutRounding="True" HorizontalContentAlignment="Center"/>
+            <Rectangle Fill="#FFD32F2F" Margin="-35,-10,-370,-245"/>
+            <Image x:Name="image" HorizontalAlignment="Left" Margin="95,55,-245,0" Width="150" Source="ms-appx:///Assets/user-512.png" Stretch="Fill" NineGrid="0" Height="150"/>
         </RelativePanel>
+
+        <Rectangle x:Name="BlackScreenLogin" Fill="#7F000000" HorizontalAlignment="Left" Height="625" Margin="-55,-33,-40,0" Stroke="Black" VerticalAlignment="Top" Width="455" Visibility="Collapsed"/>
+        <ProgressRing x:Name="LoadingLogin" HorizontalAlignment="Center"  VerticalAlignment="Center" Height="60" Width="60" Background="{x:Null}" Foreground="#FFD32F2F" IsActive="True" Visibility="Collapsed"/>
 
     </Grid>
 </Page>

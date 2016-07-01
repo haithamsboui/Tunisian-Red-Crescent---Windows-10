@@ -7,15 +7,21 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <Grid Background="White" Margin="0,48,0,0">
         <Image x:Name="image" Height="240" Margin="10,10,10,0" VerticalAlignment="Top" Source="ms-appx:///Assets/no-image-icon.jpg" Stretch="Fill"/>
-        <Button x:Name="button"  HorizontalAlignment="Left" Margin="285,10,0,0" VerticalAlignment="Top" Click="button_Click" Background="#CCFF0000">
+        <Button x:Name="button"  HorizontalAlignment="Left" Margin="285,10,0,0" VerticalAlignment="Top" Click="button_Click" Background="#FFD32F2F">
             <Image Source="ms-appx:///Assets/camera.png" Height="44" Width="35"/>
         </Button>
-        <Button x:Name="ReportAccidentBt"  HorizontalAlignment="Left" Margin="284,510,0,0" VerticalAlignment="Top" Click="button1_Click" Height="35" Width="56" Background="White">
-            <Image Source="ms-appx:///Assets/basic1-170_paper_plane-512.png" Margin="-6.667,-6,-1.333,-6"/>
-        </Button>
-        <TextBox x:Name="textBlock" Margin="10,290,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="215" PlaceholderText="Description"/>
+        <Button x:Name="ReportAccidentBt" Content="Report" HorizontalAlignment="Left" Margin="10,510,0,0" VerticalAlignment="Top" Click="button1_Click" Height="35" Width="340" Background="#FFD32F2F" BorderBrush="{x:Null}" Foreground="White"/>
+        <TextBox x:Name="Description" Margin="10,290,10,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Height="215" PlaceholderText="Description" SelectionHighlightColor="#FFD32F2F" BorderBrush="#FFD32F2F"/>
+        <Rectangle x:Name="BlackScreen" Visibility="Collapsed" Fill="#7F000000" HorizontalAlignment="Left" Height="572" Margin="10,10,0,0" Stroke="Black" VerticalAlignment="Top" Width="340"/>
+        <ProgressRing x:Name="Loading" HorizontalAlignment="Center"  VerticalAlignment="Center" Height="60" Width="60" Background="{x:Null}" Foreground="#FFD32F2F" IsActive="True" Visibility="Collapsed"/>
+        <ProgressRing x:Name="LoadingImg" HorizontalAlignment="Center"  VerticalAlignment="Center" Height="60" Width="60" Background="{x:Null}" Foreground="#FFD32F2F" IsActive="True" Visibility="Collapsed" Margin="150,87,150,445"/>
+        <Grid x:Name="Load" Margin="-40,-38,-35,-35" Visibility="Collapsed">
+            <Rectangle Fill="#7F000000" HorizontalAlignment="Left" Height="665" Stroke="Black" VerticalAlignment="Top" Width="435"/>
+            <ProgressBar HorizontalAlignment="Left" Height="60" VerticalAlignment="Top" Width="435" Margin="0,235,0,0" IsIndeterminate="True"/>
+
+        </Grid>
 
     </Grid>
 </Page>
