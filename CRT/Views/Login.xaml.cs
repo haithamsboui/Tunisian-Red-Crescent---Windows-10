@@ -18,8 +18,7 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using winsdkfb;
-using winsdkfb.Graph;
+
 using CRT.Controls;
 // The Blank Page item template is documented at http://go.microsoft.com/fwlink/?LinkId=234238
 
@@ -91,7 +90,7 @@ namespace CRT.Views
         }
 
         private async void LoginFb_Click(object sender, RoutedEventArgs e)
-        {
+        {/*
             FBSession sess1 = FBSession.ActiveSession;
             sess1.FBAppId = "686873071454910";
             sess1.WinAppId = WebAuthenticationBroker.GetCurrentApplicationCallbackUri().ToString();
@@ -108,8 +107,9 @@ namespace CRT.Views
             permissionList.Add("user_photos");
             permissionList.Add("publish_actions");
             FBPermissions permissions = new FBPermissions(permissionList);
-
+            */
             // Login to Facebook
+            /*
             FBResult result = await sess.LoginAsync(permissions);
             if (result.Succeeded)
             {
@@ -120,7 +120,7 @@ namespace CRT.Views
             else
             {
                 Debug.WriteLine("err " + result.ErrorInfo.Message+"  "+ result.ErrorInfo.ErrorUserMessage);
-            }
+            }*/
         }
 
         private void checkBox_Checked(object sender, RoutedEventArgs e)

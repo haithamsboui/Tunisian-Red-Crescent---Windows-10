@@ -17,13 +17,7 @@
             <PasswordBox x:Name="Password"  Height="32"  VerticalAlignment="Top" Margin="0,366,-330,-366"  HorizontalAlignment="Right" Width="320" PlaceholderText="Password" BorderBrush="#FFD32F2F"/>
             <Button x:Name="SignUp" Content="Sign up" HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Margin="163,450,-243,-446" Click="SignUp_Click" RenderTransformOrigin="0.5,0.821" FontSize="13.333" BorderBrush="#FFD32F2F" Background="#FFD32F2F" Foreground="White"/>
             <Button x:Name="SignIn" Content="Log in" HorizontalAlignment="Stretch" Height="30" VerticalAlignment="Top" Margin="248,450,-328,-446" Click="button_Click" RenderTransformOrigin="0.5,0.821" FontSize="13.333" BorderBrush="#FFD32F2F" Background="#FFD32F2F" Foreground="White"/>
-            <fbsdk:FBLoginButton x:Name="LoginFb"  Margin="3,0,-340,-610"   Click="LoginFb_Click" Height="64" HorizontalAlignment="Center" VerticalAlignment="Bottom" Width="330" Visibility="Collapsed"  >
-                <fbsdk:FBLoginButton.Background>
-                    <ImageBrush ImageSource="ms-appx:///Assets/sign-in-facebook.png" Stretch="UniformToFill"/>
-                </fbsdk:FBLoginButton.Background>
-            </fbsdk:FBLoginButton>
-            <fbsdk:ProfilePictureControl x:Name="ProfilePic" Margin="10,387,-330,-610" Visibility="Collapsed"/>
-            <CheckBox x:Name="RememberMe" Content="Remember me" HorizontalAlignment="Right" Height="32" VerticalAlignment="Top" Margin="0,448,-153,-448" Checked="checkBox_Checked" BorderBrush="White" Foreground="White" Padding="10,5,10,0" d:LayoutOverrides="HorizontalAlignment" Background="#FFD32F2F" UseLayoutRounding="True" HorizontalContentAlignment="Center"/>
+          <CheckBox x:Name="RememberMe" Content="Remember me" HorizontalAlignment="Right" Height="32" VerticalAlignment="Top" Margin="0,448,-153,-448" Checked="checkBox_Checked" BorderBrush="White" Foreground="White" Padding="10,5,10,0" d:LayoutOverrides="HorizontalAlignment" Background="#FFD32F2F" UseLayoutRounding="True" HorizontalContentAlignment="Center"/>
             <Rectangle Fill="#FFD32F2F" Margin="-35,-10,-370,-245"/>
             <Image x:Name="image" HorizontalAlignment="Left" Margin="95,55,-245,0" Width="150" Source="ms-appx:///Assets/user-512.png" Stretch="Fill" NineGrid="0" Height="150"/>
         </RelativePanel>

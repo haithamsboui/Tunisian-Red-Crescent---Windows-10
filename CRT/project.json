@@ -1,6 +1,5 @@
 ﻿{
   "dependencies": {
-    "Facebook": "7.0.6",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0",
     "SocketIoClientDotNet": "0.9.13",
     "Template10": "1.1.8"
